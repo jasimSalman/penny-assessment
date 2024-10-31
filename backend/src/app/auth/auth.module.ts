@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { MongooseModule, Schema } from '@nestjs/mongoose';
+import { MongooseModule } from '@nestjs/mongoose';
 import { AuthSchema } from './schemas/auth.schema';
 import{JwtModule} from '@nestjs/jwt'
 import {PassportModule} from '@nestjs/passport'
 import { ConfigService } from '@nestjs/config';
-import { config } from 'process';
 
 @Module({
   imports:[
