@@ -1,5 +1,5 @@
 export default {
-  displayName: 'frontend',
+  displayName: 'penny-technical-assessment',
   preset: '../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   coverageDirectory: '../coverage/frontend',
