@@ -9,6 +9,7 @@ import {
   RouterLinkActive,
 } from '@angular/router';
 import { AuthState } from '../../states/auth/auth.reducers';
+import { selectToken, selectUser } from '../../states/auth/auth.selector';
 
 @Component({
   selector: 'app-nav',
@@ -25,6 +26,9 @@ import { AuthState } from '../../states/auth/auth.reducers';
 })
 export class NavComponent {
   private store = inject(Store<{ auth: AuthState }>);
+
+  selectedToken$ = this.store.select(selectToken)
+  selectedUser$ = this.store.select(selectUser)
 
   logout() {
     this.store.dispatch(logout());

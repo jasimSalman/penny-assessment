@@ -1,6 +1,7 @@
 <div class="header">
   <div class="right">
     <a
+    *ngIf="!(selectedToken$ | async)"
       routerLink="/login"
       routerLinkActive="active"
       ariaCurrentWhenActive="page"
@@ -8,13 +9,16 @@
       >Login</a
     >
     <a
+    *ngIf="!(selectedToken$ | async)"
       routerLink="/signup"
       routerLinkActive="active"
       ariaCurrentWhenActive="page"
       class="nav-links"
       >Register</a
     >
+    <p *ngIf="(selectedToken$ | async)" class="nav-links">Welcome {{ (selectedUser$ | async)?.username }}</p>
     <a
+    *ngIf="(selectedToken$ | async)"
       routerLink="/"
       routerLinkActive="active"
       ariaCurrentWhenActive="page"
