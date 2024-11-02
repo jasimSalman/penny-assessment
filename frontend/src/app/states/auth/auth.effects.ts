@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Router } from '@angular/router';
-import { of } from 'rxjs';
+import { of, timer } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import * as AuthActions from './auth.actions';
 import { AuthService } from '../../services/auth.service';
@@ -48,4 +48,26 @@ export class AuthEffects {
       ),
     { dispatch: false }
   );
+
+  autoLogout$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.login),
+      mergeMap(() =>
+        timer(28800000).pipe( // 8 hours
+          map(() => AuthActions.sessionExpired())
+        )
+      )
+    )
+  );
+
+  // Handle session expiration
+  sessionExpired$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.sessionExpired),
+        map(() => AuthActions.logout())
+      ),
+    { dispatch: true } // Dispatches the logout action
+  );
+  
 }

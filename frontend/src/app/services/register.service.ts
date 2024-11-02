@@ -13,7 +13,7 @@ export class RegisterService {
 
   register(credentials: RegisterRequest): Observable<RegisterResponse> {
     return this.http.post<RegisterResponse>(
-      `${this.apiUrl}/sign-up`,
+      `${this.apiUrl}/auth/sign-up`,
       credentials
     );
   }

@@ -17,3 +17,5 @@ export const loginFailure = createAction(
 );
 
 export const logout = createAction('[Auth] Logout');
+
+export const sessionExpired = createAction('[Auth] Session Expired');

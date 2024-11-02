@@ -1,0 +1,27 @@
+.container {
+  max-width: 1200px; /* Max width for larger screens */
+  margin: auto; /* Center the container */
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  transition: transform 0.2s; /* Animation on hover */
+}
+
+.card:hover {
+  transform: scale(1.05); /* Scale effect on hover */
+}
+
+.card-img-top {
+  height: 200px; /* Fixed height for images */
+  object-fit: cover; /* Maintain aspect ratio without distortion */
+}
+
+.card-body {
+  padding: 10px; /* Adjust padding */
+}
+
+.card-title {
+  font-size: 1.1em; /* Slightly larger font for the title */
+}
