@@ -1,0 +1,36 @@
+<div className="login-page">
+  <h1>Login</h1>
+  <form class="login-form" (ngSubmit)="onLogin()">
+    <label for="username">Username</label>
+    <input
+      type="text"
+      [(ngModel)]="username"
+      placeholder="Username"
+      name="username"
+      required />
+
+    <label for="password">Password</label>
+    <input
+      type="password"
+      [(ngModel)]="password"
+      placeholder="Password"
+      name="password"
+      required />
+
+    <button type="submit">Submit</button>
+  </form>
+  <!-- <div *ngIf="error">{{ error }}</div> -->
+
+  <div>
+    <a to="/update-password">
+      <div className="font">Forget your password?</div>
+    </a>
+    <hr />
+    <div className="font">Don't have an accout?</div>
+    <div className="felxSignin">
+      <a to="/register/owner">
+        <h6 className="color">Create a New Account</h6>
+      </a>
+    </div>
+  </div>
+</div>

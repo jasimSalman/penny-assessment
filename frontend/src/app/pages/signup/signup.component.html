@@ -1,0 +1,38 @@
+<form className="registration-form" (ngSubmit)="onSubmit()">
+  <label htmlFor="username" className="label"> Username </label>
+  <input
+    [(ngModel)]="username"
+    name="username"
+    type="text"
+    placeholder="Username"
+    required
+    className="inputFeild" />
+
+  <label htmlFor="email" className="label"> Email </label>
+  <input
+    name="email"
+    type="email"
+    placeholder="example@example.com"
+    required
+    className="inputFeild"
+    [(ngModel)]="email" />
+
+  <label htmlFor="password" className="label"> Password </label>
+  <input
+    type="password"
+    name="password"
+    placeholder="password"
+    required
+    className="inputFeild"
+    [(ngModel)]="password" />
+
+  <label htmlFor="confirmPassword" className="label"> Confirm Password </label>
+  <input
+    type="password"
+    name="confirmPassword"
+    placeholder="confirmPassword"
+    required
+    className="inputFeild" />
+
+  <button type="submit">Register</button>
+</form>
