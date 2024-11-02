@@ -9,6 +9,4 @@ export class BookController {
   index() {
     return this.bookService.index();
   }
-
-
 }

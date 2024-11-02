@@ -7,32 +7,29 @@ import { BookResponse } from '../../models/book.models';
   selector: 'app-book',
   standalone: true,
   imports: [CommonModule],
-  providers:[BookService],
+  providers: [BookService],
   templateUrl: './books.component.html',
   styleUrl: './books.component.css',
 })
 export class BookComponent {
-
-
-  books: BookResponse[] = []; 
-  error: string | null = null; 
+  books: BookResponse[] = [];
+  error: string | null = null;
 
   constructor(private bookService: BookService) {}
 
   ngOnInit(): void {
-    this.loadBooks(); 
+    this.loadBooks();
   }
 
   loadBooks(): void {
     this.bookService.getBooks().subscribe(
       (response: BookResponse[]) => {
-        console.log(response)
-        this.books = response; 
+        console.log(response);
+        this.books = response;
       },
-      (error) => {
-        this.error = error.message; 
+      error => {
+        this.error = error.message;
       }
     );
   }
-
 }

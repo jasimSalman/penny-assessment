@@ -12,7 +12,7 @@ import { BookModule } from './books/book.module';
     ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
     MongooseModule.forRoot(process.env.DATABASE_URL),
     AuthModule,
-    BookModule
+    BookModule,
   ],
   controllers: [AppController],
   providers: [AppService],

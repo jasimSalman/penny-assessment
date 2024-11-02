@@ -5,14 +5,14 @@ export interface AuthState {
   token: string | null;
   user: any;
   error: string | null;
-  isLoggedIn: boolean
+  isLoggedIn: boolean;
 }
 
 export const initialState: AuthState = {
   token: null,
   user: null,
   error: null,
-  isLoggedIn:false
+  isLoggedIn: false,
 };
 
 export const authReducer = createReducer(

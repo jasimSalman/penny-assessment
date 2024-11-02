@@ -1,4 +1,3 @@
-// auth.service.ts
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -13,22 +12,9 @@ export class AuthService {
   private apiUrl = environment.apiUrl;
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/auth/sign-in`, credentials);
+    return this.http.post<LoginResponse>(
+      `${this.apiUrl}/auth/sign-in`,
+      credentials
+    );
   }
-
-
-  setToken(token: string) {
-    localStorage.setItem('token', token);
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem('token');
-  }
-
-  clearToken() {
-    localStorage.removeItem('token');
-  }
-
 }
-
-

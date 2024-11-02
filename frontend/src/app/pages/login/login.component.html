@@ -1,4 +1,4 @@
-<div className="login-page">
+<div class="login-page">
   <h1>Login</h1>
   <form class="login-form" (ngSubmit)="onLogin()">
     <label for="username">Username</label>
@@ -19,17 +19,19 @@
 
     <button type="submit">Submit</button>
   </form>
-  <!-- <div *ngIf="error">{{ error }}</div> -->
 
   <div>
-    <a to="/update-password">
-      <div className="font">Forget your password?</div>
+    <a routerLink="/update-password">
+      <div class="font">Forget your password?</div>
     </a>
     <hr />
-    <div className="font">Don't have an accout?</div>
-    <div className="felxSignin">
-      <a to="/register/owner">
-        <h6 className="color">Create a New Account</h6>
+    <div class="font">Don't have an accout?</div>
+    <div class="felxSignin">
+      <a
+        routerLink="/signup"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page">
+        <h6 class="color">Create a New Account</h6>
       </a>
     </div>
   </div>

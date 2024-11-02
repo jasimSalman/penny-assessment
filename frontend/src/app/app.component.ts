@@ -7,6 +7,7 @@ import {
 } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
 import { NavComponent } from './shared/nav/nav.component';
+import { HomeComponent } from './pages/Home/Home.component';
 
 @Component({
   standalone: true,
@@ -17,6 +18,7 @@ import { NavComponent } from './shared/nav/nav.component';
     RouterLinkActive,
     LoginComponent,
     NavComponent,
+    HomeComponent,
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',

@@ -8,7 +8,6 @@ export const selectBooks = createSelector(
   (state: BooksState) => state.books
 );
 
-
 export const selectError = createSelector(
   selectBookState,
   (state: BooksState) => state.error

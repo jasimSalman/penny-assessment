@@ -5,11 +5,24 @@ import { Store } from '@ngrx/store';
 import * as AuthActions from '../../states/auth/auth.actions';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthState } from '../../states/auth/auth.reducers';
+import {
+  RouterLink,
+  RouterLinkActive,
+  RouterModule,
+  RouterOutlet,
+} from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+  ],
   providers: [AuthService],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
