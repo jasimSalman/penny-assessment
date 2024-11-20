@@ -25,7 +25,7 @@ export class AuthEffects {
       ofType(AuthActions.login),
       mergeMap(({ credentials }) =>
         this.authService.login(credentials).pipe(
-          map(response => AuthActions.loginSuccess({ response })),
+          map(response => AuthActions.loginSuccess({ response, redirect:true })),
           catchError(error => of(AuthActions.loginFailure({ error })))
         )
       )
@@ -36,10 +36,11 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.loginSuccess),
-        tap(({ response }) => {
-          console.log(`Auth effecr response${JSON.stringify(response)}`);
+        tap(({ response , redirect }) => {
           this.authService.setUser(response.token, response.user.username);
+          if(redirect){
           this.router.navigate(['/books']);
+          }
         })
       ),
     { dispatch: false }
@@ -50,7 +51,7 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.logout),
         tap(() => {
-          localStorage.removeItem('token');
+          this.authService.logout()
           this.router.navigate(['/']);
         })
       ),
@@ -63,7 +64,7 @@ export class AuthEffects {
       mergeMap(() => {
         const user = this.authService.getUser();
         if (user) {
-          return of(AuthActions.loginSuccess({ response: user }));
+          return of(AuthActions.loginSuccess({ response: user , redirect:false }));
         } else {
           return of(AuthActions.loginFailure({ error: 'No user found' }));
         }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { Store } from '@ngrx/store';
@@ -9,11 +9,9 @@ import {
   RouterLink,
   RouterLinkActive,
   RouterModule,
-  RouterOutlet,
 } from '@angular/router';
 
 import {
-  loginFormChanged,
   loginFormValidationFailed,
 } from '../../states/form/form.actions';
 
@@ -24,7 +22,6 @@ import {
     CommonModule,
     FormsModule,
     RouterModule,
-    RouterOutlet,
     RouterLink,
     RouterLinkActive,
   ],
@@ -34,7 +31,7 @@ import {
 })
 export class LoginComponent {
   constructor(private store: Store<AuthState>) {}
-  // private store = inject(Store<{ auth: AuthState }>);
+
   username: string = '';
   password: string = '';
 
@@ -51,7 +48,6 @@ export class LoginComponent {
       return;
     }
 
-    // Dispatch valid form state
     this.store.dispatch(
       AuthActions.login({
         credentials: { username: this.username, password: this.password },

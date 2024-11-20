@@ -8,7 +8,7 @@ export const login = createAction(
 
 export const loginSuccess = createAction(
   '[Auth] Login Success',
-  props<{ response: LoginResponse }>()
+  props<{ response: LoginResponse ,redirect:boolean }>()
 );
 
 export const loginFailure = createAction(
@@ -19,3 +19,5 @@ export const loginFailure = createAction(
 export const autoLogin = createAction('[Auth] Auto Login');
 
 export const logout = createAction('[Auth] Logout');
+
+

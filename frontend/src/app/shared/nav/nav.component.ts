@@ -4,7 +4,6 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   RouterModule,
-  RouterOutlet,
   RouterLink,
   RouterLinkActive,
 } from '@angular/router';

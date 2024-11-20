@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RegisterState } from '../../states/registration/register.reducers';
 import { Store } from '@ngrx/store';
 import * as RegisterActions from '../../states/registration/registration.actions';
-import { FormsModule, Validator } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { RegisterService } from '../../services/register.service';
 import { registerFormValidationFailed } from '../../states/form/form.actions';
 
@@ -23,7 +23,6 @@ export class SignupComponent {
   confPassword: string = '';
 
   onSubmit() {
-    // Perform validation
     const errors = {
       username: !this.username ? 'Username is required' : null,
       password: !this.password ? 'Password is required' : null,
@@ -32,7 +31,6 @@ export class SignupComponent {
         this.password !== this.confPassword ? 'Passwords do not match' : null,
     };
 
-    // Check if there are any validation errors
     const hasErrors = Object.values(errors).some(error => error !== null);
 
     if (hasErrors) {
@@ -40,7 +38,6 @@ export class SignupComponent {
       return;
     }
 
-    // Dispatch the register action
     this.store.dispatch(
       RegisterActions.register({
         credentials: {

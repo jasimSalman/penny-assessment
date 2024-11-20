@@ -1,6 +1,6 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { last, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { LoginRequest, LoginResponse } from '../models/auth.models';
 import { environment } from 'frontend/src/enviroments/environment';
 
@@ -30,7 +30,9 @@ export class AuthService {
   calcTimeoutInterval(sessionExpiration: number) {
     const currentDate = new Date().getTime();
     const timeInterval = sessionExpiration - currentDate;
-    this.timeoutInterval = setTimeout(() => {}, timeInterval);
+    this.timeoutInterval = setTimeout(() => {
+      this.logout()
+    }, timeInterval);
   }
 
   getUser() {
@@ -44,7 +46,18 @@ export class AuthService {
       this.calcTimeoutInterval(expirDate);
       return { token, user, sessionExpiration };
     }
-
     return null;
   }
+
+  logout(){
+    localStorage.removeItem('token')
+    localStorage.removeItem("username")
+    localStorage.removeItem('sessionExpiration')
+
+    if(this.timeoutInterval){
+      clearTimeout(this.timeoutInterval)
+      this.timeoutInterval = null
+  }
+}
+
 }
