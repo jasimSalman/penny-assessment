@@ -7,7 +7,8 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterDto } from './dto/register.dto';
 import { SignInDto } from './dto/signIn.dto';
-import { UpdatePassordDto } from './dto/updatePassord.dto';
+import { ReceiveOtpDto, UpdatePassordDto, ValidatOptDto } from './dto/updatePassord.dto';
+import nodemailer from 'nodemailer';
 
 @Injectable()
 export class AuthService {
@@ -63,9 +64,74 @@ export class AuthService {
     return { user };
   }
 
+  async sentOtp(receiveOtpDto:ReceiveOtpDto){
+    const {username} = receiveOtpDto
+
+    let existingUser = await this.authModel.findOne({ username });
+    if (!existingUser) {
+      throw new Error('Username does not exists!');
+    }
+
+    const createdOtp = Math.floor(100000 + Math.random() * 900000).toString()
+
+    const transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: process.env.EMAIL_ADDRESS,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+  
+    await transporter.sendMail({
+      from: process.env.EMAIL_ADDRESS,
+      to: existingUser.email,
+      subject: 'Reset Password OTP',
+      text: `Your OTP is ${createdOtp}.`,
+    });
+  
+    const expirationTime = Date.now() + 2 * 60 * 1000;
+    
+    await this.authModel.updateOne(
+      { username },
+      { otp:createdOtp, otpExpiration: expirationTime },
+    );
+    return { message: 'OTP sent to your email.'};
+  }
+
+  async optVerification(validatOptDto:ValidatOptDto){
+    const {username , otps } = validatOptDto
+
+    const existingUser = await this.authModel.findOne({username})
+
+    if(!existingUser){
+      throw new Error("User does not exist")
+    }
+
+    const {otp: otp ,otpExpiration: otpExpiration } = existingUser
+
+  const currentTime = Date.now()
+
+  if (otps !== otp) {
+    throw new Error('Invalid OTP. Please try again.');
+  }
+
+  if (currentTime > otpExpiration) {
+    throw new Error('OTP has expired. Please request a new OTP.');
+  }
+
+  await this.authModel.updateOne(
+    { username },
+    { $unset: { otp: "", otpExpiration: "" } }
+  );
+
+  return { message: 'OTP verified successfully!' };
+  }
+
+
   async updatePassowrd(
     updatePassowrdDto: UpdatePassordDto
   ): Promise<{ token: string }> {
+
     const { username, password } = updatePassowrdDto;
     const user = await this.authModel.findOne({ username });
 
@@ -73,12 +139,7 @@ export class AuthService {
       throw new UnauthorizedException('User does not exist');
     }
 
-    const SALT_ROUNDS = parseInt(
-      this.configService.get<string>('SALT_ROUNDS'),
-      10
-    );
-
-    let hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    let hashedPassword = await bcrypt.hash(password, process.env.SALT_ROUNDS);
 
     await this.authModel.updateOne(
       { username: username },

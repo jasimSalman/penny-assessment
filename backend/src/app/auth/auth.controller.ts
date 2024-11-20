@@ -2,7 +2,7 @@ import { Body, Controller, Post, Req, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { SignInDto } from './dto/signIn.dto';
-import { UpdatePassordDto } from './dto/updatePassord.dto';
+import { ReceiveOtpDto, UpdatePassordDto, ValidatOptDto } from './dto/updatePassord.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -23,5 +23,15 @@ export class AuthController {
     @Body() updatePasswordDto: UpdatePassordDto
   ): Promise<{ token: string }> {
     return this.authService.updatePassowrd(updatePasswordDto);
+  }
+
+  @Post('/verify')
+  async sentOtp(@Body()receiveOtpDto:ReceiveOtpDto){
+    return this.authService.sentOtp(receiveOtpDto)
+  }
+
+  @Post('/otp-validation')
+  async optVerification(@Body()validatOptDto:ValidatOptDto){
+    return this.authService.optVerification(validatOptDto)
   }
 }

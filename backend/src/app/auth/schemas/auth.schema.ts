@@ -12,6 +12,12 @@ export class Auth {
 
   @Prop()
   email: string;
+
+  @Prop()
+  otp: string;
+
+  @Prop()
+  otpExpiration: number;
 }
 
 export const AuthSchema = SchemaFactory.createForClass(Auth);
