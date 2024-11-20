@@ -16,6 +16,6 @@ export const loginFailure = createAction(
   props<{ error: any }>()
 );
 
-export const logout = createAction('[Auth] Logout');
+export const autoLogin = createAction('[Auth] Auto Login');
 
-export const sessionExpired = createAction('[Auth] Session Expired');
+export const logout = createAction('[Auth] Logout');

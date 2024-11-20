@@ -10,7 +10,6 @@ import {
 } from '@angular/router';
 import { AuthState } from '../../states/auth/auth.reducers';
 import {
-  selectToken,
   selectUser,
   selectIsLoggedIn,
 } from '../../states/auth/auth.selector';
@@ -21,7 +20,6 @@ import {
   imports: [
     CommonModule,
     RouterModule,
-    RouterOutlet,
     RouterLink,
     RouterLinkActive,
   ],
@@ -31,8 +29,8 @@ import {
 export class NavComponent {
   private store = inject(Store<{ auth: AuthState }>);
 
-  selectIsLoggedIn$ = this.store.select(selectIsLoggedIn);
-  selectedUser$ = this.store.select(selectUser);
+  isLoggedIn$ = this.store.select(selectIsLoggedIn);
+  user$ = this.store.select(selectUser);
 
   logout() {
     this.store.dispatch(logout());

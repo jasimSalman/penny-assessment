@@ -1,9 +1,8 @@
-import { response } from 'express';
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Router } from '@angular/router';
-import { of, timer } from 'rxjs';
-import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import * as AuthActions from './auth.actions';
 import { AuthService } from '../../services/auth.service';
 
@@ -11,11 +10,17 @@ import { AuthService } from '../../services/auth.service';
   providedIn: 'root',
 })
 export class AuthEffects {
+  // constructor(
+  //   private actions$: Actions,
+  //   private authService: AuthService,
+  //   private router: Router
+  // ) {}
   private actions$ = inject(Actions);
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  login$ = createEffect(() =>
+  login$ = createEffect(
+    () =>
     this.actions$.pipe(
       ofType(AuthActions.login),
       mergeMap(({ credentials }) =>
@@ -32,7 +37,8 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.loginSuccess),
         tap(({ response }) => {
-          localStorage.setItem('token', response.token);
+          console.log(`Auth effecr response${JSON.stringify(response)}`);
+          this.authService.setUser(response.token, response.user.username);
           this.router.navigate(['/books']);
         })
       ),
@@ -51,21 +57,17 @@ export class AuthEffects {
     { dispatch: false }
   );
 
-  autoLogout$ = createEffect(() =>
+  autoLogin$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthActions.login),
-      mergeMap(() =>
-        timer(28800000).pipe(map(() => AuthActions.sessionExpired()))
-      )
+      ofType(AuthActions.autoLogin),
+      mergeMap(() => {
+        const user = this.authService.getUser();
+        if (user) {
+          return of(AuthActions.loginSuccess({ response: user }));
+        } else {
+          return of(AuthActions.loginFailure({ error: 'No user found' }));
+        }
+      })
     )
-  );
-
-  sessionExpired$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(AuthActions.sessionExpired),
-        map(() => AuthActions.logout())
-      ),
-    { dispatch: true }
   );
 }

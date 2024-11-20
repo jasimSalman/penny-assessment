@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { RegisterState } from '../../states/registration/register.reducers';
 import { Store } from '@ngrx/store';
 import * as RegisterActions from '../../states/registration/registration.actions';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, Validator } from '@angular/forms';
 import { RegisterService } from '../../services/register.service';
+import { registerFormValidationFailed } from '../../states/form/form.actions';
 
 @Component({
   selector: 'app-signup',
@@ -19,9 +20,27 @@ export class SignupComponent {
   username: string = '';
   password: string = '';
   email: string = '';
+  confPassword: string = '';
 
   onSubmit() {
-    console.log(this.email, this.username, this.password);
+    // Perform validation
+    const errors = {
+      username: !this.username ? 'Username is required' : null,
+      password: !this.password ? 'Password is required' : null,
+      email: !this.email ? 'Email is required' : null,
+      confPassword:
+        this.password !== this.confPassword ? 'Passwords do not match' : null,
+    };
+
+    // Check if there are any validation errors
+    const hasErrors = Object.values(errors).some(error => error !== null);
+
+    if (hasErrors) {
+      this.store.dispatch(registerFormValidationFailed({ errors }));
+      return;
+    }
+
+    // Dispatch the register action
     this.store.dispatch(
       RegisterActions.register({
         credentials: {

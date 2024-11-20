@@ -1,32 +1,32 @@
 <div class="header">
   <div class="right">
-    <a
-      *ngIf="!(selectIsLoggedIn$ | async)"
-      routerLink="/login"
-      routerLinkActive="active"
-      ariaCurrentWhenActive="page"
-      class="nav-links"
-      >Login</a
-    >
-    <a
-      *ngIf="!(selectIsLoggedIn$ | async)"
-      routerLink="/signup"
-      routerLinkActive="active"
-      ariaCurrentWhenActive="page"
-      class="nav-links"
-      >Register</a
-    >
-    <p *ngIf="selectIsLoggedIn$ | async" class="nav-links">
-      Welcome {{ (selectedUser$ | async)?.username }}
-    </p>
-    <a
-      *ngIf="selectIsLoggedIn$ | async"
-      routerLink="/"
-      routerLinkActive="active"
-      ariaCurrentWhenActive="page"
-      class="nav-links"
-      (click)="logout()"
-      >Logout</a
-    >
+    <ng-container *ngIf="!(isLoggedIn$ | async); else loggedInTemplate">
+      <a
+        routerLink="/login"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+        class="nav-links"
+        >Login</a
+      >
+      <a
+        routerLink="/signup"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+        class="nav-links"
+        >Register</a
+      >
+    </ng-container>
+
+    <ng-template #loggedInTemplate>
+      <p class="nav-links">Welcome {{ (user$ | async)?.username }}</p>
+      <a
+        routerLink="/"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+        class="nav-links"
+        (click)="logout()"
+        >Logout</a
+      >
+    </ng-template>
   </div>
 </div>

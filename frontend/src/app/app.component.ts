@@ -8,6 +8,9 @@ import {
 import { LoginComponent } from './pages/login/login.component';
 import { NavComponent } from './shared/nav/nav.component';
 import { HomeComponent } from './pages/Home/Home.component';
+import { autoLogin } from './states/auth/auth.actions';
+import { Store } from '@ngrx/store';
+import { AuthState } from './states/auth/auth.reducers';
 
 @Component({
   standalone: true,
@@ -26,4 +29,10 @@ import { HomeComponent } from './pages/Home/Home.component';
 })
 export class AppComponent {
   title = 'penny-technical-assessment';
+
+  constructor(private store: Store<AuthState>) {}
+
+  ngOnInit() {
+    this.store.dispatch(autoLogin());
+  }
 }

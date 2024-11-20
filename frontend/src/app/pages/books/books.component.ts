@@ -24,7 +24,6 @@ export class BookComponent {
   loadBooks(): void {
     this.bookService.getBooks().subscribe(
       (response: BookResponse[]) => {
-        console.log(response);
         this.books = response;
       },
       error => {
