@@ -5,15 +5,7 @@ import { Store } from '@ngrx/store';
 import * as AuthActions from '../../states/auth/auth.actions';
 import { FormsModule } from '@angular/forms';
 import { AuthState } from '../../states/auth/auth.reducers';
-import {
-  RouterLink,
-  RouterLinkActive,
-  RouterModule,
-} from '@angular/router';
-
-import {
-  loginFormValidationFailed,
-} from '../../states/form/form.actions';
+import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -35,23 +27,18 @@ export class LoginComponent {
   username: string = '';
   password: string = '';
 
-  onLogin() {
-    if (!this.username || !this.password) {
-      this.store.dispatch(
-        loginFormValidationFailed({
-          errors: {
-            username: !this.username ? 'Username is required' : null,
-            password: !this.password ? 'Password is required' : null,
-          },
-        })
-      );
-      return;
-    }
+  isInvalid(controler: any): boolean {
+    return controler.invalid && controler.touched;
+  }
 
+  onLogin() {
     this.store.dispatch(
       AuthActions.login({
         credentials: { username: this.username, password: this.password },
       })
     );
+
+    this.username = '';
+    this.password = '';
   }
 }

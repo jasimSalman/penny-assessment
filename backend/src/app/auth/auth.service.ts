@@ -127,19 +127,23 @@ export class AuthService {
   return { message: 'OTP verified successfully!' };
   }
 
-
   async updatePassowrd(
     updatePassowrdDto: UpdatePassordDto
-  ): Promise<{ token: string }> {
+  ){
 
-    const { username, password } = updatePassowrdDto;
+    const { username, newPassword } = updatePassowrdDto;
     const user = await this.authModel.findOne({ username });
 
     if (!user) {
       throw new UnauthorizedException('User does not exist');
     }
 
-    let hashedPassword = await bcrypt.hash(password, process.env.SALT_ROUNDS);
+    const SALT_ROUNDS = parseInt(
+      this.configService.get<string>('SALT_ROUNDS'),
+      10
+    );
+
+    let hashedPassword = await bcrypt.hash(newPassword, SALT_ROUNDS);
 
     await this.authModel.updateOne(
       { username: username },

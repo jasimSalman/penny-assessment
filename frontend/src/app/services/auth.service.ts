@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { LoginRequest, LoginResponse } from '../models/auth.models';
+import {
+  LoginRequest,
+  LoginResponse,
+  RegisterRequest,
+  RegisterResponse,
+} from '../models/auth.models';
 import { environment } from 'frontend/src/enviroments/environment';
 
 @Injectable({
@@ -19,6 +24,13 @@ export class AuthService {
     );
   }
 
+  register(credentials: RegisterRequest): Observable<RegisterResponse> {
+    return this.http.post<RegisterResponse>(
+      `${this.apiUrl}/auth/sign-up`,
+      credentials
+    );
+  }
+
   setUser(token: string, username: string) {
     const sessionExpiration = new Date().getTime() + 8 * 60 * 60 * 1000;
     localStorage.setItem('token', token);
@@ -31,7 +43,7 @@ export class AuthService {
     const currentDate = new Date().getTime();
     const timeInterval = sessionExpiration - currentDate;
     this.timeoutInterval = setTimeout(() => {
-      this.logout()
+      this.logout();
     }, timeInterval);
   }
 
@@ -49,15 +61,34 @@ export class AuthService {
     return null;
   }
 
-  logout(){
-    localStorage.removeItem('token')
-    localStorage.removeItem("username")
-    localStorage.removeItem('sessionExpiration')
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('sessionExpiration');
 
-    if(this.timeoutInterval){
-      clearTimeout(this.timeoutInterval)
-      this.timeoutInterval = null
+    if (this.timeoutInterval) {
+      clearTimeout(this.timeoutInterval);
+      this.timeoutInterval = null;
+    }
   }
-}
 
+  sendOtp(username: string) {
+    return this.http.post<{ message: string }>(`${this.apiUrl}/auth/verify`, {
+      username,
+    });
+  }
+
+  validateOtp(username: string, otps: string) {
+    return this.http.post<{ message: string }>(
+      `${this.apiUrl}/auth/otp-validation`,
+      { username, otps }
+    );
+  }
+
+  resetPassword(username: string, newPassword: string) {
+    return this.http.post<{ message: string }>(
+      `${this.apiUrl}/auth/forget-password`,
+      { username, newPassword }
+    );
+  }
 }

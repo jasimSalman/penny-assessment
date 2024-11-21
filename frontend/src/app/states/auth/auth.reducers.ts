@@ -6,6 +6,7 @@ export interface AuthState {
   user: any;
   error: string | null;
   isLoggedIn: boolean;
+  message: string | null;
 }
 
 export const initialState: AuthState = {
@@ -13,6 +14,7 @@ export const initialState: AuthState = {
   user: null,
   error: null,
   isLoggedIn: false,
+  message: null,
 };
 
 export const authReducer = createReducer(
@@ -34,5 +36,44 @@ export const authReducer = createReducer(
     user: null,
     isLoggedIn: false,
     error: null,
+  })),
+  on(
+    AuthActions.generateOtp,
+    AuthActions.validateOtp,
+    AuthActions.resetPassword,
+    state => ({
+      ...state,
+      message: null,
+      error: null,
+    })
+  ),
+  on(
+    AuthActions.generateOtpSuccess,
+    AuthActions.validateOtpSuccess,
+    AuthActions.resetPasswordSuccess,
+    (state, { message }) => ({
+      ...state,
+      message,
+      error: null,
+    })
+  ),
+  on(
+    AuthActions.generateOtpFailure,
+    AuthActions.validateOtpFailure,
+    AuthActions.resetPasswordFailure,
+    (state, { error }) => ({
+      ...state,
+      message: null,
+      error,
+    })
+  ),
+  on(AuthActions.registerSuccess, (state, { response }) => ({
+    ...state,
+    user: response.user,
+    error: null,
+  })),
+  on(AuthActions.registerFailure, (state, { error }) => ({
+    ...state,
+    error,
   }))
 );

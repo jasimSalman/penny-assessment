@@ -1,45 +1,29 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RegisterState } from '../../states/registration/register.reducers';
+import { AuthState } from '../../states/auth/auth.reducers';
 import { Store } from '@ngrx/store';
-import * as RegisterActions from '../../states/registration/registration.actions';
+import * as AuthActions from '../../states/auth/auth.actions';
 import { FormsModule } from '@angular/forms';
-import { RegisterService } from '../../services/register.service';
-import { registerFormValidationFailed } from '../../states/form/form.actions';
+import { AuthService } from '../../services//auth.service';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  providers: [RegisterService],
+  providers: [AuthService],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css',
 })
 export class SignupComponent {
-  private store = inject(Store<{ auth: RegisterState }>);
+  private store = inject(Store<{ auth: AuthState }>);
   username: string = '';
   password: string = '';
   email: string = '';
   confPassword: string = '';
 
   onSubmit() {
-    const errors = {
-      username: !this.username ? 'Username is required' : null,
-      password: !this.password ? 'Password is required' : null,
-      email: !this.email ? 'Email is required' : null,
-      confPassword:
-        this.password !== this.confPassword ? 'Passwords do not match' : null,
-    };
-
-    const hasErrors = Object.values(errors).some(error => error !== null);
-
-    if (hasErrors) {
-      this.store.dispatch(registerFormValidationFailed({ errors }));
-      return;
-    }
-
     this.store.dispatch(
-      RegisterActions.register({
+      AuthActions.register({
         credentials: {
           username: this.username,
           password: this.password,
@@ -47,5 +31,10 @@ export class SignupComponent {
         },
       })
     );
+
+    this.username = '';
+    this.email = '';
+    this.password = '';
+    this.confPassword = '';
   }
 }

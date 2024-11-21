@@ -19,14 +19,21 @@ export class AuthEffects {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  login$ = createEffect(
-    () =>
+  login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.login),
       mergeMap(({ credentials }) =>
         this.authService.login(credentials).pipe(
-          map(response => AuthActions.loginSuccess({ response, redirect:true })),
-          catchError(error => of(AuthActions.loginFailure({ error })))
+          map(response =>
+            AuthActions.loginSuccess({ response, redirect: true })
+          ),
+          catchError(error =>
+            of(
+              AuthActions.loginFailure({
+                error: 'Enter a valid username or password',
+              })
+            )
+          )
         )
       )
     )
@@ -36,10 +43,10 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.loginSuccess),
-        tap(({ response , redirect }) => {
+        tap(({ response, redirect }) => {
           this.authService.setUser(response.token, response.user.username);
-          if(redirect){
-          this.router.navigate(['/books']);
+          if (redirect) {
+            this.router.navigate(['/books']);
           }
         })
       ),
@@ -51,7 +58,7 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.logout),
         tap(() => {
-          this.authService.logout()
+          this.authService.logout();
           this.router.navigate(['/']);
         })
       ),
@@ -64,11 +71,87 @@ export class AuthEffects {
       mergeMap(() => {
         const user = this.authService.getUser();
         if (user) {
-          return of(AuthActions.loginSuccess({ response: user , redirect:false }));
+          return of(
+            AuthActions.loginSuccess({ response: user, redirect: false })
+          );
         } else {
-          return of(AuthActions.loginFailure({ error: 'No user found' }));
+          return of(AuthActions.loginFailure({ error: 'User not found' }));
         }
       })
+    )
+  );
+
+  register$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.register),
+      mergeMap(({ credentials }) =>
+        this.authService.register(credentials).pipe(
+          map(response => AuthActions.registerSuccess({ response })),
+          catchError(error => of(AuthActions.registerFailure({ error })))
+        )
+      )
+    )
+  );
+
+  registerSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.registerSuccess),
+        tap(({ response }) => {
+          this.router.navigate(['/login']);
+        })
+      ),
+    { dispatch: false }
+  );
+
+  generateOtp$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.generateOtp),
+      mergeMap(({ username }) =>
+        this.authService.sendOtp(username).pipe(
+          map(response =>
+            AuthActions.generateOtpSuccess({
+              message: response.message,
+            })
+          ),
+          catchError(error =>
+            of(AuthActions.generateOtpFailure({ error: error.message }))
+          )
+        )
+      )
+    )
+  );
+
+  validateOtp$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.validateOtp),
+      mergeMap(({ username, otp }) =>
+        this.authService.validateOtp(username, otp).pipe(
+          map(response =>
+            AuthActions.validateOtpSuccess({ message: response.message })
+          ),
+          catchError(error =>
+            of(AuthActions.validateOtpFailure({ error: error.message }))
+          )
+        )
+      )
+    )
+  );
+
+  resetPassword$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.resetPassword),
+      mergeMap(({ username, newPassword }) =>
+        this.authService.resetPassword(username, newPassword).pipe(
+          map(response =>
+            AuthActions.resetPasswordSuccess({ message: response.message })
+          ),
+          tap(() => this.router.navigate(['login'])),
+          catchError(error =>
+            of(AuthActions.resetPasswordFailure({ error: error.message }))
+          )
+        )
+      )
     )
   );
 }

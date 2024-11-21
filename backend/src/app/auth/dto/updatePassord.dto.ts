@@ -1,16 +1,5 @@
 import { IsNotEmpty, IsNumberString, IsString } from 'class-validator';
 
-export class UpdatePassordDto {
-  @IsNotEmpty()
-  @IsString()
-  readonly username: string;
-
-  @IsNotEmpty()
-  @IsString()
-  readonly password: string;
-}
-
-
 export class ReceiveOtpDto {
   @IsNotEmpty()
   @IsString()
@@ -20,10 +9,21 @@ export class ReceiveOtpDto {
 
 export class ValidatOptDto {
   @IsNotEmpty()
-  @IsNumberString()
+  @IsString()
   readonly otps: string;
 
   @IsNotEmpty()
   @IsString()
   readonly username: string;
 }
+
+export class UpdatePassordDto {
+  @IsNotEmpty()
+  @IsString()
+  readonly username: string;
+
+  @IsNotEmpty()
+  @IsString()
+  readonly newPassword: string;
+}
+

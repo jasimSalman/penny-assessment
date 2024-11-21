@@ -7,7 +7,6 @@ import { provideState, provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { authReducer } from './states/auth/auth.reducers';
 import { AuthEffects } from './states/auth/auth.effects';
-import { RegsiterEffects } from './states/registration/register.effects';
 import { booksReducer } from './states/book/books.reducer';
 
 export const appConfig: ApplicationConfig = {
@@ -16,7 +15,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(appRoutes, withComponentInputBinding()),
     provideStore({ auth: authReducer }),
-    provideEffects([AuthEffects, RegsiterEffects]),
+    provideEffects([AuthEffects]),
     provideHttpClient(withFetch()),
     provideState({ name: 'books', reducer: booksReducer }),
   ],

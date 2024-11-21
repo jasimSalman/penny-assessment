@@ -10,9 +10,9 @@
       required
       minlength="5"
       #usernameCtrl="ngModel" />
-    <div *ngIf="usernameCtrl.invalid && usernameCtrl.touched">
-      <p class="login-error">Enter a valid Username</p>
-    </div>
+    <p class="login-error" *ngIf="isInvalid(usernameCtrl)">
+      Enter a valid Username
+    </p>
 
     <label for="password">Password</label>
     <input
@@ -24,15 +24,17 @@
       pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
       minlength="8"
       #passwordCtrl="ngModel" />
-    <div *ngIf="passwordCtrl.errors?.['pattern'] && passwordCtrl.touched">
-      <p class="login-error">Enter a valid password</p>
-    </div>
+    <p
+      *ngIf="passwordCtrl.errors?.['pattern'] && passwordCtrl.touched"
+      class="login-error">
+      Enter a valid password
+    </p>
 
     <button type="submit" [disabled]="form.invalid">Submit</button>
   </form>
 
   <div>
-    <a routerLink="/update-password">
+    <a routerLink="/forget-password">
       <div class="font">Forget your password?</div>
     </a>
     <hr />

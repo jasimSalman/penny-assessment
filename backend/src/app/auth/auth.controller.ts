@@ -18,13 +18,6 @@ export class AuthController {
     return this.authService.registration(registerDto);
   }
 
-  @Post('/forget-password')
-  async updatePassowrd(
-    @Body() updatePasswordDto: UpdatePassordDto
-  ): Promise<{ token: string }> {
-    return this.authService.updatePassowrd(updatePasswordDto);
-  }
-
   @Post('/verify')
   async sentOtp(@Body()receiveOtpDto:ReceiveOtpDto){
     return this.authService.sentOtp(receiveOtpDto)
@@ -33,5 +26,12 @@ export class AuthController {
   @Post('/otp-validation')
   async optVerification(@Body()validatOptDto:ValidatOptDto){
     return this.authService.optVerification(validatOptDto)
+  }
+
+  @Post('/forget-password')
+  async updatePassowrd(
+    @Body() updatePasswordDto: UpdatePassordDto
+  ) {
+    return this.authService.updatePassowrd(updatePasswordDto);
   }
 }
