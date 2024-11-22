@@ -8,7 +8,7 @@ async function bootstrap() {
   const port = process.env.PORT || 3000;
 
   app.enableCors({
-    origin: ['http://localhost:4200'],
+    origin: ['http://localhost:4200', 'https://penny-assessment-d6f5b.web.app/'],
     credentials: true,
   });
 
