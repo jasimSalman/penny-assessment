@@ -1,0 +1,26 @@
+{
+  "name": "auth-library",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "auth-library/src",
+  "prefix": "lib",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "auth-library/jest.config.ts"
+      }
+    },
+    "build": {
+      "executor": "@nx/angular:package",
+      "options": {
+        "project": "auth-library/ng-package.json"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

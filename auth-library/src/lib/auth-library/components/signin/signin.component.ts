@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { Store } from '@ngrx/store';
-import * as AuthActions from '../../states/auth/auth.actions';
+import * as AuthActions from '../../states/auth.actions';
 import { FormsModule } from '@angular/forms';
-import { AuthState } from '../../states/auth/auth.reducers';
+import { AuthState } from '../../states/auth.reducers';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 
 @Component({
@@ -18,10 +18,12 @@ import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
     RouterLinkActive,
   ],
   providers: [AuthService],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
+  templateUrl: './signin.component.html',
+  styleUrl: './signin.component.css',
 })
-export class LoginComponent {
+export class SigninComponent {
+
+
   constructor(private store: Store<AuthState>) {}
 
   username: string = '';

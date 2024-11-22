@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { AuthState } from '../../states/auth/auth.reducers';
-import * as AuthActions from '../../states/auth/auth.actions';
+import { AuthState } from '../../states/auth.reducers';
+import * as AuthActions from '../../states/auth.actions';
 
 @Component({
   selector: 'app-reset-password',
@@ -13,6 +13,7 @@ import * as AuthActions from '../../states/auth/auth.actions';
   styleUrl: './resetPassword.component.css',
 })
 export class ResetPasswordComponent {
+
   constructor(private store: Store<AuthState>) {}
   username = '';
   otp = '';
@@ -43,4 +44,5 @@ export class ResetPasswordComponent {
       })
     );
   }
+
 }

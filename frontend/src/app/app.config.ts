@@ -5,8 +5,8 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideState, provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
-import { authReducer } from './states/auth/auth.reducers';
-import { AuthEffects } from './states/auth/auth.effects';
+import { authReducer } from '@penny-technical-assessment/auth-library';
+import { AuthEffects } from '@penny-technical-assessment/auth-library';
 import { booksReducer } from './states/book/books.reducer';
 
 export const appConfig: ApplicationConfig = {

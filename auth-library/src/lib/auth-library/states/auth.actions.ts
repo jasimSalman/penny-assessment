@@ -4,7 +4,7 @@ import {
   LoginResponse,
   RegisterRequest,
   RegisterResponse,
-} from '../../models/auth.models';
+} from '../models/auth.models';
 
 export const login = createAction(
   '[Auth] Login',

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { NavComponent } from './shared/nav/nav.component';
-import { autoLogin } from './states/auth/auth.actions';
+import { autoLogin } from '@penny-technical-assessment/auth-library';
 import { Store } from '@ngrx/store';
-import { AuthState } from './states/auth/auth.reducers';
+import { AuthState } from '@penny-technical-assessment/auth-library';
 
 @Component({
   standalone: true,

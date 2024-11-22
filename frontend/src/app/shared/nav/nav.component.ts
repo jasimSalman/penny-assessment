@@ -1,10 +1,10 @@
 import { Store } from '@ngrx/store';
-import { logout } from './../../states/auth/auth.actions';
+import { logout } from '@penny-technical-assessment/auth-library';
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, RouterLink, RouterLinkActive } from '@angular/router';
-import { AuthState } from '../../states/auth/auth.reducers';
-import { selectUser, selectIsLoggedIn } from '../../states/auth/auth.selector';
+import { AuthState } from '@penny-technical-assessment/auth-library';
+import { selectUser, selectIsLoggedIn } from '@penny-technical-assessment/auth-library';
 
 @Component({
   selector: 'app-nav',

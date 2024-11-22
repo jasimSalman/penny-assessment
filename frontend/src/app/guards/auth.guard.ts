@@ -3,7 +3,7 @@ import { CanActivate, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AuthState } from '../states/auth/auth.reducers';
+import { AuthState } from '@penny-technical-assessment/auth-library';
 
 @Injectable({
   providedIn: 'root',

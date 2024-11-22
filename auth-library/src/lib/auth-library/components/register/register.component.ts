@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthState } from '../../states/auth/auth.reducers';
+import { AuthState } from '../../states/auth.reducers';
 import { Store } from '@ngrx/store';
-import * as AuthActions from '../../states/auth/auth.actions';
+import * as AuthActions from '../../states/auth.actions';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services//auth.service';
 
@@ -11,10 +11,10 @@ import { AuthService } from '../../services//auth.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   providers: [AuthService],
-  templateUrl: './signup.component.html',
-  styleUrl: './signup.component.css',
+  templateUrl: './register.component.html',
+  styleUrl: './register.component.css',
 })
-export class SignupComponent {
+export class RegisterComponent {
   private store = inject(Store<{ auth: AuthState }>);
   username: string = '';
   password: string = '';
@@ -37,4 +37,5 @@ export class SignupComponent {
     this.password = '';
     this.confPassword = '';
   }
+
 }

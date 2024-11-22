@@ -7,7 +7,7 @@ import {
   RegisterRequest,
   RegisterResponse,
 } from '../models/auth.models';
-import { environment } from 'frontend/src/enviroments/environment';
+import { environment } from '../../../enviroments/environment';
 
 @Injectable({
   providedIn: 'root',
